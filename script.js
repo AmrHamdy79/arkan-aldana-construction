@@ -1,6 +1,7 @@
 // Navigation
 document.addEventListener('DOMContentLoaded', function() {
     initNavigation();
+    initMobileMenu();
     initModals();
     initVoiceRecorder();
     initFileUpload();
@@ -8,6 +9,56 @@ document.addEventListener('DOMContentLoaded', function() {
     initCharts();
     initAnimations();
 });
+
+// Mobile Menu
+function initMobileMenu() {
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('mobileOverlay');
+    const navItems = document.querySelectorAll('.nav-item');
+    
+    if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', function() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            this.classList.toggle('active');
+            
+            // Change icon
+            const icon = this.querySelector('i');
+            if (sidebar.classList.contains('active')) {
+                icon.className = 'fas fa-times';
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            } else {
+                icon.className = 'fas fa-bars';
+                document.body.style.overflow = ''; // Enable scrolling
+            }
+        });
+    }
+    
+    // Close sidebar when clicking on nav item (mobile only)
+    navItems.forEach(item => {
+        item.addEventListener('click', function() {
+            if (window.innerWidth <= 768) {
+                closeMobileMenu();
+            }
+        });
+    });
+    
+    // Close sidebar when clicking on overlay
+    if (overlay) {
+        overlay.addEventListener('click', closeMobileMenu);
+    }
+    
+    function closeMobileMenu() {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.classList.remove('active');
+            mobileMenuBtn.querySelector('i').className = 'fas fa-bars';
+        }
+        document.body.style.overflow = ''; // Enable scrolling
+    }
+}
 
 // Navigation System
 function initNavigation() {
