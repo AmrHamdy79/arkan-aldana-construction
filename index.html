@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أركان الدانة للمقاولات العامة | نظام الإدارة المتكامل</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <i class="fas fa-building-shield"></i>
+                <div class="logo-text">
+                    <h1>أركان الدانة</h1>
+                    <p>للمقاولات العامة</p>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="#dashboard" class="nav-item active" data-page="dashboard">
+                <i class="fas fa-chart-line"></i>
+                <span>لوحة التحكم</span>
+            </a>
+            <a href="#projects" class="nav-item" data-page="projects">
+                <i class="fas fa-hard-hat"></i>
+                <span>المشاريع</span>
+            </a>
+            <a href="#calculator" class="nav-item" data-page="calculator">
+                <i class="fas fa-calculator"></i>
+                <span>حاسبة المشاريع</span>
+            </a>
+            <a href="#workers" class="nav-item" data-page="workers">
+                <i class="fas fa-users"></i>
+                <span>إدارة العمال</span>
+            </a>
+            <a href="#finance" class="nav-item" data-page="finance">
+                <i class="fas fa-money-bill-wave"></i>
+                <span>المالية</span>
+            </a>
+            <a href="#companies" class="nav-item" data-page="companies">
+                <i class="fas fa-handshake"></i>
+                <span>الشركات</span>
+            </a>
+            <a href="#reports" class="nav-item" data-page="reports">
+                <i class="fas fa-file-export"></i>
+                <span>التقارير</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <i class="fas fa-user-circle"></i>
+                <span>المدير العام</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="page active">
+            <header class="page-header">
+                <div class="header-top">
+                    <h2>لوحة التحكم الرئيسية</h2>
+                    <div class="header-actions">
+                        <button class="btn-icon" id="voiceBtn">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <button class="btn-icon">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge">3</span>
+                        </button>
+                    </div>
+                </div>
+                <p class="header-subtitle">المدينة المنورة، المملكة العربية السعودية</p>
+            </header>
+
+            <!-- Financial Overview Cards -->
+            <div class="stats-grid">
+                <div class="stat-card primary">
+                    <div class="stat-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>رأس المال الحالي</h3>
+                        <p class="stat-value" id="totalCapital">850,000 ريال</p>
+                        <span class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> +12.5%
+                        </span>
+                    </div>
+                </div>
+
+                <div class="stat-card success">
+                    <div class="stat-icon">
+                        <i class="fas fa-arrow-trend-up"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>إجمالي الإيرادات</h3>
+                        <p class="stat-value" id="totalRevenue">1,250,000 ريال</p>
+                        <span class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> +8.3%
+                        </span>
+                    </div>
+                </div>
+
+                <div class="stat-card warning">
+                    <div class="stat-icon">
+                        <i class="fas fa-arrow-trend-down"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>إجمالي المصروفات</h3>
+                        <p class="stat-value" id="totalExpenses">720,000 ريال</p>
+                        <span class="stat-change">
+                            <i class="fas fa-minus"></i> مستقر
+                        </span>
+                    </div>
+                </div>
+
+                <div class="stat-card info">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>صافي الربح</h3>
+                        <p class="stat-value profit" id="netProfit">530,000 ريال</p>
+                        <span class="stat-change positive">
+                            <i class="fas fa-arrow-up"></i> +18.2%
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="dashboard-grid">
+                <div class="chart-card">
+                    <div class="card-header">
+                        <h3>الإيرادات والمصروفات الشهرية</h3>
+                        <select class="select-period">
+                            <option>آخر 6 أشهر</option>
+                            <option>آخر سنة</option>
+                        </select>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="revenueExpenseChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="card-header">
+                        <h3>توقعات الأرباح</h3>
+                        <div class="prediction-info">
+                            <span class="badge">خلال 5 سنوات</span>
+                        </div>
+                    </div>
+                    <div class="prediction-container">
+                        <div class="prediction-item">
+                            <span class="year">السنة الأولى</span>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 65%"></div>
+                            </div>
+                            <span class="amount">680,000 ريال</span>
+                        </div>
+                        <div class="prediction-item">
+                            <span class="year">السنة الثانية</span>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 78%"></div>
+                            </div>
+                            <span class="amount">820,000 ريال</span>
+                        </div>
+                        <div class="prediction-item">
+                            <span class="year">السنة الثالثة</span>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 88%"></div>
+                            </div>
+                            <span class="amount">925,000 ريال</span>
+                        </div>
+                        <div class="prediction-item">
+                            <span class="year">السنة الرابعة</span>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 95%"></div>
+                            </div>
+                            <span class="amount">1,000,000 ريال</span>
+                        </div>
+                        <div class="prediction-item">
+                            <span class="year">السنة الخامسة</span>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 100%"></div>
+                            </div>
+                            <span class="amount">1,150,000 ريال</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Projects & Debts -->
+            <div class="dashboard-grid">
+                <div class="projects-summary">
+                    <div class="card-header">
+                        <h3>المشاريع النشطة</h3>
+                        <a href="#projects" class="link-view-all">عرض الكل</a>
+                    </div>
+                    <div class="projects-list">
+                        <div class="project-item">
+                            <div class="project-info">
+                                <h4>فيلا سكنية - حي العزيزية</h4>
+                                <p>المساحة: 400 متر | التقدم: 65%</p>
+                            </div>
+                            <div class="project-status">
+                                <span class="badge success">جاري التنفيذ</span>
+                                <span class="project-value">450,000 ريال</span>
+                            </div>
+                        </div>
+                        <div class="project-item">
+                            <div class="project-info">
+                                <h4>بناء عمارة سكنية - حي قباء</h4>
+                                <p>4 أدوار | التقدم: 45%</p>
+                            </div>
+                            <div class="project-status">
+                                <span class="badge warning">متأخر قليلاً</span>
+                                <span class="project-value">680,000 ريال</span>
+                            </div>
+                        </div>
+                        <div class="project-item">
+                            <div class="project-info">
+                                <h4>ترميم منزل تراثي</h4>
+                                <p>مشروع حكومي | التقدم: 30%</p>
+                            </div>
+                            <div class="project-status">
+                                <span class="badge info">في الموعد</span>
+                                <span class="project-value">320,000 ريال</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="debts-summary">
+                    <div class="card-header">
+                        <h3>المستحقات والالتزامات</h3>
+                    </div>
+                    <div class="debts-list">
+                        <div class="debt-item urgent">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <div class="debt-info">
+                                <h4>رواتب العمال المتأخرة</h4>
+                                <p>مستحق خلال 3 أيام</p>
+                            </div>
+                            <span class="debt-amount">85,000 ريال</span>
+                        </div>
+                        <div class="debt-item warning">
+                            <i class="fas fa-clock"></i>
+                            <div class="debt-info">
+                                <h4>سلف العمال</h4>
+                                <p>12 عامل</p>
+                            </div>
+                            <span class="debt-amount">32,000 ريال</span>
+                        </div>
+                        <div class="debt-item normal">
+                            <i class="fas fa-building"></i>
+                            <div class="debt-info">
+                                <h4>مستحقات الموردين</h4>
+                                <p>5 شركات</p>
+                            </div>
+                            <span class="debt-amount">125,000 ريال</span>
+                        </div>
+                        <div class="debt-item normal">
+                            <i class="fas fa-id-card"></i>
+                            <div class="debt-info">
+                                <h4>تجديد إقامات قادمة</h4>
+                                <p>8 عمال خلال شهر</p>
+                            </div>
+                            <span class="debt-amount">16,000 ريال</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Page -->
+        <div id="projects-page" class="page">
+            <header class="page-header">
+                <h2>إدارة المشاريع</h2>
+                <button class="btn-primary" id="addProjectBtn">
+                    <i class="fas fa-plus"></i> مشروع جديد
+                </button>
+            </header>
+
+            <div class="filter-bar">
+                <input type="text" class="search-input" placeholder="البحث عن مشروع...">
+                <select class="filter-select">
+                    <option>جميع المشاريع</option>
+                    <option>قيد التنفيذ</option>
+                    <option>مكتمل</option>
+                    <option>متوقف</option>
+                </select>
+            </div>
+
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-title">
+                            <h3>فيلا سكنية - حي العزيزية</h3>
+                            <span class="badge success">جاري التنفيذ</span>
+                        </div>
+                        <button class="btn-icon">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                    <div class="project-details">
+                        <div class="detail-row">
+                            <span class="label"><i class="fas fa-calendar"></i> تاريخ البدء</span>
+                            <span class="value">15 يناير 2026</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label"><i class="fas fa-calendar-check"></i> تاريخ الانتهاء المتوقع</span>
+                            <span class="value">30 مارس 2026</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label"><i class="fas fa-coins"></i> قيمة العقد</span>
+                            <span class="value">450,000 ريال</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label"><i class="fas fa-money-bill"></i> المصروفات حتى الآن</span>
+                            <span class="value">292,500 ريال</span>
+                        </div>
+                    </div>
+                    <div class="progress-section">
+                        <div class="progress-header">
+                            <span>التقدم في المشروع</span>
+                            <span class="progress-percent">65%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 65%"></div>
+                        </div>
+                    </div>
+                    <div class="project-actions">
+                        <button class="btn-secondary"><i class="fas fa-eye"></i> التفاصيل</button>
+                        <button class="btn-secondary"><i class="fas fa-upload"></i> رفع فاتورة</button>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-title">
+                            <h3>بناء عمارة سكنية - حي قباء</h3>
+                            <span class="badge warning">متأخر قليلاً</span>
+                        </div>
+                        <button class="btn-icon">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                    <div class="project-details">
+                        <div class="detail-row">
+                            <span class="label"><i class="fas fa-calendar"></i> تاريخ البدء</span>
+                            <span class="value">1 ديسمبر 2025</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label"><i class="fas fa-calendar-check"></i> تاريخ الانتهاء المتوقع</span>
+                            <span class="value">15 أبريل 2026</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label"><i class="fas fa-coins"></i> قيمة العقد</span>
+                            <span class="value">680,000 ريال</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="label"><i class="fas fa-money-bill"></i> المصروفات حتى الآن</span>
+                            <span class="value">306,000 ريال</span>
+                        </div>
+                    </div>
+                    <div class="progress-section">
+                        <div class="progress-header">
+                            <span>التقدم في المشروع</span>
+                            <span class="progress-percent">45%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress warning" style="width: 45%"></div>
+                        </div>
+                    </div>
+                    <div class="project-actions">
+                        <button class="btn-secondary"><i class="fas fa-eye"></i> التفاصيل</button>
+                        <button class="btn-secondary"><i class="fas fa-upload"></i> رفع فاتورة</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calculator Page -->
+        <div id="calculator-page" class="page">
+            <header class="page-header">
+                <h2>حاسبة المشاريع الذكية</h2>
+                <p class="header-subtitle">احسب التكاليف والأرباح المتوقعة</p>
+            </header>
+
+            <div class="calculator-container">
+                <div class="calculator-card">
+                    <h3><i class="fas fa-calculator"></i> معلومات المشروع</h3>
+                    
+                    <div class="form-group">
+                        <label>نوع المشروع</label>
+                        <select id="projectType" class="form-input">
+                            <option value="villa">فيلا سكنية</option>
+                            <option value="building">عمارة سكنية</option>
+                            <option value="house">منزل</option>
+                            <option value="commercial">مبنى تجاري</option>
+                            <option value="restoration">ترميم</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>المساحة (متر مربع)</label>
+                            <input type="number" id="projectArea" class="form-input" placeholder="400">
+                        </div>
+                        <div class="form-group">
+                            <label>عدد الأدوار</label>
+                            <input type="number" id="projectFloors" class="form-input" placeholder="2">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>المدة المتوقعة (شهور)</label>
+                        <input type="number" id="projectDuration" class="form-input" placeholder="4">
+                    </div>
+
+                    <h3 class="section-title"><i class="fas fa-tools"></i> التكاليف المتوقعة</h3>
+
+                    <div class="cost-items">
+                        <div class="cost-item">
+                            <label>تكلفة المواد</label>
+                            <input type="number" class="form-input cost-input" placeholder="150,000">
+                        </div>
+                        <div class="cost-item">
+                            <label>أجور العمالة</label>
+                            <input type="number" class="form-input cost-input" placeholder="80,000">
+                        </div>
+                        <div class="cost-item">
+                            <label>المعدات والآليات</label>
+                            <input type="number" class="form-input cost-input" placeholder="30,000">
+                        </div>
+                        <div class="cost-item">
+                            <label>تكاليف إدارية</label>
+                            <input type="number" class="form-input cost-input" placeholder="15,000">
+                        </div>
+                    </div>
+
+                    <button class="btn-calculate" id="calculateBtn">
+                        <i class="fas fa-magic"></i> احسب الآن
+                    </button>
+                </div>
+
+                <div class="results-card">
+                    <h3><i class="fas fa-chart-line"></i> النتائج والتوصيات</h3>
+                    
+                    <div class="result-summary">
+                        <div class="result-item total">
+                            <span class="result-label">إجمالي التكاليف المتوقعة</span>
+                            <span class="result-value" id="totalCost">275,000 ريال</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">هامش الربح الموصى به (20%)</span>
+                            <span class="result-value" id="profitMargin">55,000 ريال</span>
+                        </div>
+                        <div class="result-item recommended">
+                            <span class="result-label">سعر العرض الموصى به</span>
+                            <span class="result-value" id="recommendedPrice">330,000 ريال</span>
+                        </div>
+                    </div>
+
+                    <div class="pricing-options">
+                        <h4>خيارات التسعير</h4>
+                        <div class="option-item">
+                            <div class="option-header">
+                                <span class="option-title">الحد الأدنى للقبول</span>
+                                <span class="option-value">290,750 ريال</span>
+                            </div>
+                            <p class="option-desc">هامش ربح 5% - للمنافسة القوية</p>
+                        </div>
+                        <div class="option-item recommended-option">
+                            <div class="option-header">
+                                <span class="option-title">السعر الموصى به</span>
+                                <span class="option-value">330,000 ريال</span>
+                            </div>
+                            <p class="option-desc">هامش ربح 20% - السعر الأمثل</p>
+                        </div>
+                        <div class="option-item">
+                            <div class="option-header">
+                                <span class="option-title">السعر المثالي</span>
+                                <span class="option-value">357,500 ريال</span>
+                            </div>
+                            <p class="option-desc">هامش ربح 30% - للمشاريع الحصرية</p>
+                        </div>
+                    </div>
+
+                    <div class="payment-schedule">
+                        <h4>جدول الدفعات المقترح</h4>
+                        <div class="payment-item">
+                            <span><i class="fas fa-circle"></i> دفعة مقدمة</span>
+                            <span>99,000 ريال (30%)</span>
+                        </div>
+                        <div class="payment-item">
+                            <span><i class="fas fa-circle"></i> دفعة منتصف المشروع</span>
+                            <span>132,000 ريال (40%)</span>
+                        </div>
+                        <div class="payment-item">
+                            <span><i class="fas fa-circle"></i> دفعة نهائية</span>
+                            <span>99,000 ريال (30%)</span>
+                        </div>
+                    </div>
+
+                    <div class="expansion-suggestions">
+                        <h4><i class="fas fa-lightbulb"></i> اقتراحات التوسع</h4>
+                        <ul class="suggestions-list">
+                            <li>يمكن استثمار الأرباح في شراء معدات جديدة لتقليل تكاليف التأجير</li>
+                            <li>التوسع في منطقة حي العزيزية يظهر فرص نمو جيدة</li>
+                            <li>توظيف مشرف مشاريع إضافي سيزيد الطاقة الإنتاجية بنسبة 40%</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Workers Page -->
+        <div id="workers-page" class="page">
+            <header class="page-header">
+                <h2>إدارة العمال</h2>
+                <button class="btn-primary" id="addWorkerBtn">
+                    <i class="fas fa-user-plus"></i> إضافة عامل
+                </button>
+            </header>
+
+            <div class="workers-stats">
+                <div class="stat-box">
+                    <i class="fas fa-users"></i>
+                    <div>
+                        <h4>إجمالي العمال</h4>
+                        <p>42 عامل</p>
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <i class="fas fa-user-check"></i>
+                    <div>
+                        <h4>العمال النشطون</h4>
+                        <p>38 عامل</p>
+                    </div>
+                </div>
+                <div class="stat-box warning">
+                    <i class="fas fa-id-card"></i>
+                    <div>
+                        <h4>إقامات تحتاج تجديد</h4>
+                        <p>8 عمال</p>
+                    </div>
+                </div>
+                <div class="stat-box alert">
+                    <i class="fas fa-hand-holding-dollar"></i>
+                    <div>
+                        <h4>سلف مستحقة</h4>
+                        <p>32,000 ريال</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>الاسم</th>
+                            <th>المهنة</th>
+                            <th>المشروع الحالي</th>
+                            <th>الراتب الشهري</th>
+                            <th>السلف</th>
+                            <th>الإقامة</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="worker-info">
+                                    <div class="worker-avatar">م.ع</div>
+                                    <span>محمد علي</span>
+                                </div>
+                            </td>
+                            <td>مقاول عام</td>
+                            <td><span class="badge success">فيلا العزيزية</span></td>
+                            <td>4,500 ريال</td>
+                            <td>1,200 ريال</td>
+                            <td><span class="status-badge valid">سارية</span></td>
+                            <td>
+                                <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="worker-info">
+                                    <div class="worker-avatar">أ.س</div>
+                                    <span>أحمد سعيد</span>
+                                </div>
+                            </td>
+                            <td>بنّاء</td>
+                            <td><span class="badge warning">عمارة قباء</span></td>
+                            <td>3,800 ريال</td>
+                            <td>0 ريال</td>
+                            <td><span class="status-badge expiring">تنتهي خلال شهر</span></td>
+                            <td>
+                                <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="worker-info">
+                                    <div class="worker-avatar">ع.م</div>
+                                    <span>عبدالله محمود</span>
+                                </div>
+                            </td>
+                            <td>كهربائي</td>
+                            <td><span class="badge info">ترميم تراثي</span></td>
+                            <td>4,200 ريال</td>
+                            <td>800 ريال</td>
+                            <td><span class="status-badge valid">سارية</span></td>
+                            <td>
+                                <button class="btn-icon"><i class="fas fa-eye"></i></button>
+                                <button class="btn-icon"><i class="fas fa-edit"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Finance Page -->
+        <div id="finance-page" class="page">
+            <header class="page-header">
+                <h2>الإدارة المالية</h2>
+                <div class="header-actions">
+                    <button class="btn-primary" id="addTransactionBtn">
+                        <i class="fas fa-plus"></i> معاملة جديدة
+                    </button>
+                    <button class="btn-secondary" id="uploadInvoiceBtn">
+                        <i class="fas fa-upload"></i> رفع فاتورة
+                    </button>
+                </div>
+            </header>
+
+            <div class="finance-overview">
+                <div class="finance-card">
+                    <h3>ملخص الشهر الحالي</h3>
+                    <div class="finance-summary">
+                        <div class="summary-item revenue">
+                            <i class="fas fa-arrow-up"></i>
+                            <div>
+                                <span>الإيرادات</span>
+                                <strong>185,000 ريال</strong>
+                            </div>
+                        </div>
+                        <div class="summary-item expense">
+                            <i class="fas fa-arrow-down"></i>
+                            <div>
+                                <span>المصروفات</span>
+                                <strong>128,000 ريال</strong>
+                            </div>
+                        </div>
+                        <div class="summary-item profit">
+                            <i class="fas fa-chart-line"></i>
+                            <div>
+                                <span>الربح الصافي</span>
+                                <strong>57,000 ريال</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transactions-list">
+                    <h3>آخر المعاملات</h3>
+                    <div class="transaction-item revenue">
+                        <div class="transaction-icon">
+                            <i class="fas fa-arrow-down-left"></i>
+                        </div>
+                        <div class="transaction-details">
+                            <h4>دفعة من مشروع فيلا العزيزية</h4>
+                            <span class="transaction-date">10 فبراير 2026</span>
+                        </div>
+                        <span class="transaction-amount positive">+150,000 ريال</span>
+                        <button class="btn-icon"><i class="fas fa-receipt"></i></button>
+                    </div>
+                    <div class="transaction-item expense">
+                        <div class="transaction-icon">
+                            <i class="fas fa-arrow-up-right"></i>
+                        </div>
+                        <div class="transaction-details">
+                            <h4>شراء مواد بناء - الشركة المتحدة</h4>
+                            <span class="transaction-date">8 فبراير 2026</span>
+                        </div>
+                        <span class="transaction-amount negative">-45,000 ريال</span>
+                        <button class="btn-icon"><i class="fas fa-receipt"></i></button>
+                    </div>
+                    <div class="transaction-item expense">
+                        <div class="transaction-icon">
+                            <i class="fas fa-arrow-up-right"></i>
+                        </div>
+                        <div class="transaction-details">
+                            <h4>رواتب العمال</h4>
+                            <span class="transaction-date">5 فبراير 2026</span>
+                        </div>
+                        <span class="transaction-amount negative">-85,000 ريال</span>
+                        <button class="btn-icon"><i class="fas fa-receipt"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Companies Page -->
+        <div id="companies-page" class="page">
+            <header class="page-header">
+                <h2>الشركات والموردين</h2>
+                <button class="btn-primary">
+                    <i class="fas fa-plus"></i> إضافة شركة
+                </button>
+            </header>
+
+            <div class="companies-grid">
+                <div class="company-card">
+                    <div class="company-header">
+                        <div class="company-logo">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <h3>الشركة المتحدة للمواد</h3>
+                    </div>
+                    <div class="company-details">
+                        <p><i class="fas fa-tags"></i> مواد بناء</p>
+                        <p><i class="fas fa-handshake"></i> 15 تعامل</p>
+                        <p><i class="fas fa-money-bill"></i> إجمالي التعاملات: 450,000 ريال</p>
+                    </div>
+                    <div class="company-status">
+                        <span class="status-badge valid">حساب نشط</span>
+                        <span class="debt-amount">مستحق: 45,000 ريال</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reports Page -->
+        <div id="reports-page" class="page">
+            <header class="page-header">
+                <h2>التقارير والتحليلات</h2>
+                <button class="btn-primary">
+                    <i class="fas fa-file-excel"></i> تصدير Excel
+                </button>
+            </header>
+
+            <div class="reports-grid">
+                <div class="report-card">
+                    <div class="report-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>تقرير الإيرادات السنوي</h3>
+                    <p>عرض تفصيلي لجميع الإيرادات</p>
+                    <button class="btn-secondary">إنشاء التقرير</button>
+                </div>
+                <div class="report-card">
+                    <div class="report-icon">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                    <h3>تقرير المصروفات</h3>
+                    <p>تحليل المصروفات حسب الفئة</p>
+                    <button class="btn-secondary">إنشاء التقرير</button>
+                </div>
+                <div class="report-card">
+                    <div class="report-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <h3>تقرير المشاريع</h3>
+                    <p>حالة جميع المشاريع والأرباح</p>
+                    <button class="btn-secondary">إنشاء التقرير</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Voice Recording Modal -->
+    <div id="voiceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>تسجيل صوتي للمعاملة</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="voice-recorder">
+                    <div class="recorder-visual">
+                        <div class="pulse-ring"></div>
+                        <button class="record-btn" id="recordBtn">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                    </div>
+                    <p class="recorder-status">اضغط للبدء في التسجيل</p>
+                    <p class="recorder-time">00:00</p>
+                </div>
+                <div class="voice-instructions">
+                    <p><i class="fas fa-info-circle"></i> قل مثلاً: "صرفت 5000 ريال على مواد بناء لمشروع فيلا العزيزية"</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Invoice Modal -->
+    <div id="uploadModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>رفع فاتورة</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="upload-area" id="uploadArea">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>اسحب الفاتورة هنا أو اضغط للتحميل</p>
+                    <input type="file" id="fileInput" accept="image/*,.pdf" hidden>
+                    <button class="btn-secondary" onclick="document.getElementById('fileInput').click()">
+                        اختر ملف
+                    </button>
+                </div>
+                <div class="form-group">
+                    <label>المشروع</label>
+                    <select class="form-input">
+                        <option>فيلا العزيزية</option>
+                        <option>عمارة قباء</option>
+                        <option>ترميم تراثي</option>
+                    </select>
+                </div>
+                <button class="btn-primary">حفظ الفاتورة</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
