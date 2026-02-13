@@ -42,6 +42,25 @@ body {
     overflow-x: hidden;
 }
 
+/* Mobile Overlay */
+.mobile-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    opacity: 0;
+    transition: opacity var(--transition-medium);
+}
+
+.mobile-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
 /* Sidebar */
 .sidebar {
     position: fixed;
@@ -164,6 +183,42 @@ body {
     min-height: 100vh;
     background: var(--bg-primary);
     position: relative;
+}
+
+/* Mobile Menu Button */
+.mobile-menu-btn {
+    display: none;
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 9998;
+    box-shadow: 0 4px 15px rgba(30, 64, 175, 0.3);
+    transition: all var(--transition-medium);
+}
+
+.mobile-menu-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(30, 64, 175, 0.4);
+}
+
+.mobile-menu-btn.active {
+    background: var(--danger-color);
+}
+
+@media (max-width: 768px) {
+    .mobile-menu-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }
 
 .page {
@@ -1668,30 +1723,930 @@ body {
     .dashboard-grid {
         grid-template-columns: 1fr;
     }
+    
+    .calculator-container {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 768px) {
+    :root {
+        --sidebar-width: 280px;
+    }
+    
+    /* Sidebar Mobile */
     .sidebar {
+        position: fixed;
         transform: translateX(100%);
         transition: transform var(--transition-medium);
+        z-index: 9999;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3);
     }
     
     .sidebar.active {
         transform: translateX(0);
     }
     
-    .main-content {
-        margin-right: 0;
+    /* Logo Mobile */
+    .sidebar-header {
+        padding: 1.5rem 1rem;
     }
     
+    .logo-text h1 {
+        font-size: 1.25rem;
+    }
+    
+    .logo-text p {
+        font-size: 0.8rem;
+    }
+    
+    /* Nav Items Mobile */
+    .nav-item {
+        padding: 0.875rem 1.25rem;
+        margin: 0.25rem 0.5rem;
+        font-size: 0.95rem;
+    }
+    
+    .nav-item i {
+        font-size: 1.1rem;
+    }
+    
+    /* Main Content Mobile */
+    .main-content {
+        margin-right: 0;
+        padding: 0;
+    }
+    
+    .page {
+        padding: 1rem;
+        padding-top: 4.5rem; /* Space for mobile menu button */
+    }
+    
+    /* Header Mobile */
+    .page-header {
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+        border-radius: 12px;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .header-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        width: 100%;
+    }
+    
+    .page-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .header-subtitle {
+        font-size: 0.85rem;
+    }
+    
+    .header-actions {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+    
+    /* Stats Grid Mobile */
     .stats-grid,
     .workers-stats {
         grid-template-columns: 1fr;
+        gap: 1rem;
     }
     
-    .calculator-container,
+    .stat-card {
+        padding: 1.25rem;
+        flex-direction: row;
+    }
+    
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+        flex-shrink: 0;
+    }
+    
+    .stat-value {
+        font-size: 1.4rem;
+    }
+    
+    .stat-content h3 {
+        font-size: 0.85rem;
+    }
+    
+    .stat-change {
+        font-size: 0.8rem;
+        padding: 0.2rem 0.6rem;
+    }
+    
+    /* Dashboard Grid Mobile */
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .chart-card,
+    .projects-summary,
+    .debts-summary {
+        padding: 1.25rem;
+        border-radius: 12px;
+    }
+    
+    .card-header h3 {
+        font-size: 1.1rem;
+    }
+    
+    .chart-container {
+        height: 250px;
+    }
+    
+    /* Prediction Items Mobile */
+    .prediction-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+        padding: 0.875rem;
+    }
+    
+    .prediction-item .year {
+        min-width: auto;
+        font-size: 0.9rem;
+    }
+    
+    .prediction-item .amount {
+        min-width: auto;
+        text-align: right;
+        font-size: 1rem;
+    }
+    
+    /* Project Item Mobile */
+    .project-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+    
+    .project-info h4 {
+        font-size: 0.95rem;
+    }
+    
+    .project-info p {
+        font-size: 0.8rem;
+    }
+    
+    .project-status {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .project-value {
+        font-size: 1rem;
+    }
+    
+    /* Debt Item Mobile */
+    .debt-item {
+        flex-wrap: wrap;
+        padding: 1rem;
+    }
+    
+    .debt-info h4 {
+        font-size: 0.95rem;
+    }
+    
+    .debt-info p {
+        font-size: 0.8rem;
+    }
+    
+    .debt-amount {
+        width: 100%;
+        text-align: right;
+        margin-top: 0.5rem;
+        font-size: 1rem;
+    }
+    
+    /* Filter Bar Mobile */
+    .filter-bar {
+        flex-direction: column;
+        padding: 1rem;
+        gap: 0.75rem;
+    }
+    
+    .search-input,
+    .filter-select {
+        width: 100%;
+    }
+    
+    /* Projects Grid Mobile */
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .project-card {
+        padding: 1.25rem;
+        border-radius: 12px;
+    }
+    
+    .project-title h3 {
+        font-size: 1.1rem;
+    }
+    
+    .project-details {
+        gap: 0.5rem;
+    }
+    
+    .detail-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+        padding: 0.625rem;
+    }
+    
+    .detail-row .label {
+        font-size: 0.8rem;
+    }
+    
+    .detail-row .value {
+        font-weight: 700;
+        color: var(--primary-color);
+        font-size: 0.9rem;
+    }
+    
+    .project-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .project-actions .btn-secondary {
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Calculator Mobile */
+    .calculator-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .calculator-card,
+    .results-card {
+        padding: 1.25rem;
+        border-radius: 12px;
+    }
+    
+    .calculator-card h3,
+    .results-card h3 {
+        font-size: 1.25rem;
+    }
+    
+    .section-title {
+        font-size: 1.1rem;
+        margin: 1.5rem 0 1rem;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .form-group label {
+        font-size: 0.9rem;
+    }
+    
+    .form-input {
+        font-size: 0.95rem;
+        padding: 0.75rem;
+    }
+    
+    .btn-calculate {
+        font-size: 1rem;
+        padding: 0.875rem;
+    }
+    
+    .result-summary {
+        padding: 1rem;
+    }
+    
+    .result-item {
+        padding: 0.875rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .result-label {
+        font-size: 0.85rem;
+    }
+    
+    .result-value {
+        font-size: 1.25rem;
+    }
+    
+    .option-item {
+        padding: 1rem;
+    }
+    
+    .option-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .option-title {
+        font-size: 0.95rem;
+    }
+    
+    .option-value {
+        font-size: 1.15rem;
+    }
+    
+    .option-desc {
+        font-size: 0.8rem;
+    }
+    
+    .payment-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .suggestions-list li {
+        padding: 0.875rem;
+        font-size: 0.875rem;
+    }
+    
+    /* Finance Mobile */
     .finance-overview {
         grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .finance-card h3,
+    .transactions-list h3 {
+        font-size: 1.1rem;
+    }
+    
+    .summary-item {
+        padding: 1.25rem;
+        gap: 0.75rem;
+    }
+    
+    .summary-item i {
+        font-size: 1.75rem;
+        padding: 0.625rem;
+    }
+    
+    .summary-item span {
+        font-size: 0.8rem;
+    }
+    
+    .summary-item strong {
+        font-size: 1.25rem;
+    }
+    
+    .transaction-item {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+    
+    .transaction-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+    }
+    
+    .transaction-details h4 {
+        font-size: 0.95rem;
+    }
+    
+    .transaction-date {
+        font-size: 0.8rem;
+    }
+    
+    .transaction-amount {
+        width: 100%;
+        text-align: right;
+        margin-right: 0;
+        margin-top: 0.5rem;
+        font-size: 1.1rem;
+    }
+    
+    /* Table Mobile */
+    .table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border-radius: 12px;
+    }
+    
+    .data-table {
+        min-width: 600px;
+    }
+    
+    .data-table th,
+    .data-table td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.85rem;
+    }
+    
+    .worker-avatar {
+        width: 35px;
+        height: 35px;
+        font-size: 0.8rem;
+    }
+    
+    /* Companies Grid Mobile */
+    .companies-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .company-card {
+        padding: 1.25rem;
+    }
+    
+    .company-logo {
+        width: 50px;
+        height: 50px;
+        font-size: 1.25rem;
+    }
+    
+    .company-header h3 {
+        font-size: 1rem;
+    }
+    
+    .company-details {
+        font-size: 0.85rem;
+    }
+    
+    .company-status {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    
+    /* Reports Grid Mobile */
+    .reports-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .report-card {
+        padding: 1.5rem;
+    }
+    
+    .report-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 1.75rem;
+    }
+    
+    .report-card h3 {
+        font-size: 1.1rem;
+    }
+    
+    .report-card p {
+        font-size: 0.85rem;
+    }
+    
+    /* Modal Mobile */
+    .modal-content {
+        width: 95%;
+        max-height: 85vh;
+        border-radius: 16px;
+    }
+    
+    .modal-header,
+    .modal-body {
+        padding: 1.25rem;
+    }
+    
+    .modal-header h3 {
+        font-size: 1.25rem;
+    }
+    
+    .upload-area {
+        padding: 2rem 1rem;
+    }
+    
+    .upload-area i {
+        font-size: 3rem;
+    }
+    
+    .upload-area p {
+        font-size: 0.9rem;
+    }
+    
+    /* Voice Recorder Mobile */
+    .recorder-visual {
+        margin-bottom: 1.5rem;
+    }
+    
+    .pulse-ring {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .record-btn {
+        width: 80px;
+        height: 80px;
+        font-size: 2rem;
+    }
+    
+    .recorder-status {
+        font-size: 1rem;
+    }
+    
+    .recorder-time {
+        font-size: 1.25rem;
+    }
+    
+    .voice-instructions {
+        padding: 1.25rem;
+    }
+    
+    .voice-instructions p {
+        font-size: 0.9rem;
+    }
+    
+    /* Buttons Mobile */
+    .btn-primary,
+    .btn-secondary {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .btn-icon {
+        width: 42px;
+        height: 42px;
+    }
+    
+    /* Badge Mobile */
+    .badge {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.65rem;
+    }
+    
+    .status-badge {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.65rem;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Extra Small Mobile */
+    
+    /* Mobile Menu Button */
+    .mobile-menu-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.25rem;
+        top: 0.75rem;
+        right: 0.75rem;
+    }
+    
+    /* Page */
+    .page {
+        padding: 0.75rem;
+        padding-top: 4rem;
+    }
+    
+    /* Page Header */
+    .page-header {
+        padding: 1rem;
+    }
+    
+    .page-header h2 {
+        font-size: 1.25rem;
+    }
+    
+    .header-subtitle {
+        font-size: 0.8rem;
+    }
+    
+    /* Stats */
+    .stat-card {
+        padding: 1rem;
+        gap: 1rem;
+    }
+    
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.25rem;
+    }
+    
+    .stat-value {
+        font-size: 1.2rem;
+    }
+    
+    .stat-content h3 {
+        font-size: 0.8rem;
+    }
+    
+    /* Buttons */
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        justify-content: center;
+        padding: 0.875rem;
+        font-size: 0.9rem;
+    }
+    
+    .header-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.75rem;
+    }
+    
+    .header-actions .btn-primary,
+    .header-actions .btn-secondary,
+    .header-actions .btn-icon {
+        width: 100%;
+    }
+    
+    /* Charts */
+    .chart-card,
+    .projects-summary,
+    .debts-summary {
+        padding: 1rem;
+    }
+    
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    
+    .card-header h3 {
+        font-size: 1rem;
+    }
+    
+    .select-period {
+        width: 100%;
+    }
+    
+    /* Projects */
+    .project-card {
+        padding: 1rem;
+    }
+    
+    .project-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    
+    .project-title {
+        width: 100%;
+    }
+    
+    .project-title h3 {
+        font-size: 1rem;
+    }
+    
+    .badge {
+        font-size: 0.65rem;
+        padding: 0.25rem 0.5rem;
+    }
+    
+    /* Detail Rows */
+    .detail-row {
+        padding: 0.5rem;
+    }
+    
+    .detail-row .label {
+        font-size: 0.75rem;
+    }
+    
+    .detail-row .value {
+        font-size: 0.85rem;
+    }
+    
+    /* Progress */
+    .progress-header {
+        font-size: 0.85rem;
+    }
+    
+    /* Calculator */
+    .calculator-card,
+    .results-card {
+        padding: 1rem;
+    }
+    
+    .calculator-card h3,
+    .results-card h3 {
+        font-size: 1.1rem;
+    }
+    
+    .section-title {
+        font-size: 1rem;
+    }
+    
+    .result-value {
+        font-size: 1.1rem;
+    }
+    
+    .option-value {
+        font-size: 1rem;
+    }
+    
+    /* Finance */
+    .finance-card,
+    .transactions-list {
+        padding: 1rem;
+    }
+    
+    .summary-item {
+        padding: 1rem;
+    }
+    
+    .summary-item i {
+        font-size: 1.5rem;
+        padding: 0.5rem;
+    }
+    
+    .summary-item strong {
+        font-size: 1.1rem;
+    }
+    
+    .transaction-item {
+        padding: 0.875rem;
+    }
+    
+    .transaction-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .transaction-details h4 {
+        font-size: 0.9rem;
+    }
+    
+    .transaction-amount {
+        font-size: 1rem;
+    }
+    
+    /* Workers */
+    .stat-box {
+        padding: 1rem;
+    }
+    
+    .stat-box i {
+        font-size: 1.5rem;
+    }
+    
+    .stat-box h4 {
+        font-size: 0.8rem;
+    }
+    
+    .stat-box p {
+        font-size: 1.1rem;
+    }
+    
+    /* Companies */
+    .company-card {
+        padding: 1rem;
+    }
+    
+    .company-logo {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+    }
+    
+    .company-header h3 {
+        font-size: 0.95rem;
+    }
+    
+    .company-details {
+        font-size: 0.8rem;
+        gap: 0.5rem;
+    }
+    
+    .company-status {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    /* Reports */
+    .report-card {
+        padding: 1.25rem;
+    }
+    
+    .report-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .report-card h3 {
+        font-size: 1rem;
+    }
+    
+    .report-card p {
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+    }
+    
+    /* Modal */
+    .modal-content {
+        width: 98%;
+        border-radius: 12px;
+    }
+    
+    .modal-header {
+        padding: 1rem;
+    }
+    
+    .modal-header h3 {
+        font-size: 1.1rem;
+    }
+    
+    .modal-body {
+        padding: 1rem;
+    }
+    
+    .record-btn {
+        width: 70px;
+        height: 70px;
+        font-size: 1.75rem;
+    }
+    
+    .pulse-ring {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .recorder-status {
+        font-size: 0.95rem;
+    }
+    
+    .recorder-time {
+        font-size: 1.1rem;
+    }
+    
+    .voice-instructions {
+        padding: 1rem;
+    }
+    
+    .voice-instructions p {
+        font-size: 0.85rem;
+    }
+    
+    .upload-area {
+        padding: 1.5rem 1rem;
+    }
+    
+    .upload-area i {
+        font-size: 2.5rem;
+    }
+    
+    /* Predictions */
+    .prediction-item {
+        padding: 0.75rem;
+    }
+    
+    .prediction-item .year {
+        font-size: 0.85rem;
+    }
+    
+    .prediction-item .amount {
+        font-size: 0.95rem;
+    }
+    
+    /* Debt Items */
+    .debt-item {
+        padding: 0.875rem;
+    }
+    
+    .debt-item i {
+        font-size: 1.25rem;
+    }
+    
+    .debt-info h4 {
+        font-size: 0.9rem;
+    }
+    
+    .debt-amount {
+        font-size: 0.95rem;
+    }
+    
+    /* Suggestions */
+    .suggestions-list li {
+        padding: 0.75rem;
+        font-size: 0.8rem;
     }
 }
 
@@ -1711,4 +2666,52 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--primary-dark);
+}
+
+/* Touch Improvements */
+@media (hover: none) and (pointer: coarse) {
+    /* Better touch targets */
+    .btn-primary,
+    .btn-secondary,
+    .btn-icon,
+    .nav-item,
+    button {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    /* Disable hover effects on touch devices */
+    .stat-card:hover,
+    .project-card:hover,
+    .company-card:hover,
+    .report-card:hover {
+        transform: none;
+    }
+    
+    /* Better tap feedback */
+    .btn-primary:active,
+    .btn-secondary:active,
+    .btn-icon:active {
+        transform: scale(0.95);
+    }
+    
+    .nav-item:active {
+        background: rgba(255, 255, 255, 0.15);
+    }
+}
+
+/* Landscape Mobile */
+@media (max-width: 896px) and (orientation: landscape) {
+    .page {
+        padding-top: 3.5rem;
+    }
+    
+    .mobile-menu-btn {
+        top: 0.5rem;
+        right: 0.5rem;
+    }
+    
+    .modal-content {
+        max-height: 75vh;
+    }
 }
